@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_DB: mgs
+      POSTGRES_USER: mgs
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Definir POSTGRES_PASSWORD}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mgs -d mgs"]
+      interval: 5s
+      retries: 10
+  app:
+    profiles: ["app"]
+    build: .
+    environment:
+      DATABASE_URL: postgresql://mgs:${POSTGRES_PASSWORD}@postgres:5432/mgs
+      APP_URL: ${APP_URL:?Definir APP_URL con el origen HTTPS público}
+      APP_ENV: production
+      DEMO_DATA: "false"
+      STORAGE_DIR: /app/private/uploads
+      TRUST_PROXY: "false"
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - uploads:/app/private/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+volumes:
+  pgdata:
+  uploads:

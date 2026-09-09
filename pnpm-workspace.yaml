@@ -1,0 +1,8 @@
+allowBuilds:
+  core-js: false
+  esbuild: true
+  sharp: true
+  workerd: true
+  '@prisma/client': true
+  '@prisma/engines': true
+  prisma: true

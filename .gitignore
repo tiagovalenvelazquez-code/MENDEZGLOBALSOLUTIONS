@@ -1,0 +1,82 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/.vinext/
+/out/
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local environment
+.env*
+
+# deployment and generated files
+.vercel
+next-env.d.ts
+/dist/
+/.wrangler/
+/outputs/
+/work/
+
+!.env.example
+/data/
+/private/
+*.tsbuildinfo
+
+# Local services, credentials and certificates
+.envrc
+ACCESO-LOCAL.txt
+**/ACCESO-LOCAL.txt
+*.key
+*.p12
+*.pfx
+*.keystore
+id_rsa*
+id_ed25519*
+.ssh/
+
+# Private backups, local databases and temporary artifacts
+/backups/
+/dumps/
+/uploads/
+/tmp/
+/temp/
+*.dump
+*.sql.gz
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.zip
+*.7z
+*.log
+*.tmp
+*.bak
+
+# Machine-specific hosting/editor/assistant state
+/.openai/
+/.codex/
+/.agents/
+/.idea/
+/.vscode/
+Thumbs.db
+Desktop.ini

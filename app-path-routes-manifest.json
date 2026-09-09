@@ -1,0 +1,19 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/_global-error/page": "/_global-error",
+  "/api/admin/route": "/api/admin",
+  "/api/auth/login/route": "/api/auth/login",
+  "/api/auth/logout/route": "/api/auth/logout",
+  "/api/dashboard/route": "/api/dashboard",
+  "/api/documents/[id]/file/route": "/api/documents/[id]/file",
+  "/api/matching/route": "/api/matching",
+  "/api/notifications/refresh/route": "/api/notifications/refresh",
+  "/api/options/route": "/api/options",
+  "/api/records/[module]/[id]/route": "/api/records/[module]/[id]",
+  "/api/records/[module]/route": "/api/records/[module]",
+  "/api/reports/route": "/api/reports",
+  "/api/search/route": "/api/search",
+  "/page": "/",
+  "/(workspace)/[module]/[id]/page": "/[module]/[id]",
+  "/(workspace)/[module]/page": "/[module]"
+}
