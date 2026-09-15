@@ -1,0 +1,387 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "VISA/VISANET API",
+    "version": "1.0.0",
+    "description": "API REST para operaciones con tarjetas VISA, autorizaciones, tokenización, transferencias de fondos y servicios Forex."
+  },
+  "servers": [
+    {
+      "url": "https://visanet.devmindgroup.com",
+      "description": "Servidor de Pruebas / Sandbox"
+    }
+  ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/visa/protocol/101.1/": {
+      "post": {
+        "operationId": "VISANET_api_protocol_101_1",
+        "summary": "VISA Protocol 101.1 - Procesamiento Básico",
+        "tags": ["Authorization & Settlement"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CardInfo" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Procesado correctamente",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TransactionResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/visa/protocol/101.2/": {
+      "post": {
+        "operationId": "VISANET_api_protocol_101_2",
+        "summary": "VISA Protocol 101.2 - Autorización de Pagos",
+        "tags": ["Authorization & Settlement"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CardInfo" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Respuesta de la autorización",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AuthorizationResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/visa/protocol/101.3/": {
+      "post": {
+        "operationId": "VISANET_api_protocol_101_3",
+        "summary": "VISA Protocol 101.3 - Procesamiento Avanzado",
+        "tags": ["Authorization & Settlement"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CardInfo" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Respuesta del procesamiento avanzado",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TransactionResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/visa/protocol/101.4/": {
+      "post": {
+        "operationId": "VISANET_api_protocol_101_4",
+        "summary": "VISA Protocol 101.4 - Operaciones de Liquidación (Settlement)",
+        "tags": ["Authorization & Settlement"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CardInfo" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lote de liquidación completado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "settlement_id": { "type": "string", "example": "SETTLE-20260127160015" },
+                    "transaction_count": { "type": "integer", "example": 1 },
+                    "total_amount": { "type": "number", "example": 250.50 },
+                    "status": { "type": "string", "example": "completed" },
+                    "timestamp": { "type": "string", "example": "2026-09-14T22:00:00Z" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/visa/protocol/201.1/": {
+      "post": {
+        "operationId": "VISANET_api_protocol_201_1",
+        "summary": "VISA Protocol 201.1 - Autenticación 3D Secure",
+        "tags": ["Security & Authentication"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CardInfo" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token 3DS generado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "secure_token": { "type": "string", "example": "a1b2c3d4e5f67890" },
+                    "authentication_required": { "type": "boolean", "example": true },
+                    "authentication_url": { "type": "string", "example": "https://secure.visa.com/3ds/a1b2c3d4e5f67890" },
+                    "card_reference": { "type": "string", "example": "CR-20260914154522" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/visa/protocol/201.2/": {
+      "post": {
+        "operationId": "VISANET_api_protocol_201_2",
+        "summary": "VISA Protocol 201.2 - Tokenización de Tarjeta",
+        "tags": ["Security & Authentication"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CardInfo" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token generado con éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": { "type": "string", "example": "a1b2c3d4e5f6789012345678" },
+                    "card_reference": { "type": "string", "example": "TOK-20260914161544" },
+                    "card_type": { "type": "string", "example": "VISA" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/visa/push-funds/": {
+      "post": {
+        "operationId": "VISANET_api_push_funds",
+        "summary": "Envío de Fondos a Tarjeta (Push)",
+        "tags": ["Card Operations"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CardInfo" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Abono exitoso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TransactionResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/visa/pull-funds/": {
+      "post": {
+        "operationId": "VISANET_api_pull_funds",
+        "summary": "Retiro de Fondos de Tarjeta (Pull)",
+        "tags": ["Card Operations"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CardInfo" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Retiro exitoso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TransactionResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/visa/validate-card/": {
+      "post": {
+        "operationId": "VISANET_api_validate_card",
+        "summary": "Servicio de Validación de Tarjeta",
+        "tags": ["Validation Services"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CardInfo" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resultado de la validación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "valid": { "type": "boolean", "example": true },
+                    "message": { "type": "string", "example": "Card validation completed" },
+                    "card_type": { "type": "string", "example": "VISA" },
+                    "card_number_masked": { "type": "string", "example": "**** **** **** 1111" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/forex/rates/": {
+      "get": {
+        "operationId": "VISANET_api_get_forex_rates",
+        "summary": "Consultar Tasas Forex",
+        "tags": ["Forex Services"],
+        "parameters": [
+          { "in": "query", "name": "base_currency", "required": true, "schema": { "type": "string", "example": "USD" } },
+          { "in": "query", "name": "target_currency", "required": true, "schema": { "type": "string", "example": "EUR" } },
+          { "in": "query", "name": "amount", "required": false, "schema": { "type": "number", "default": 1.0 } },
+          { "in": "query", "name": "terminal_id", "required": false, "schema": { "type": "string", "example": "TERM001" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tasa consultada",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ForexResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/forex/convert/": {
+      "post": {
+        "operationId": "VISANET_api_convert_currency",
+        "summary": "Convertir Divisas",
+        "tags": ["Forex Services"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ForexRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conversión realizada",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ForexResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "CardInfo": {
+        "type": "object",
+        "required": ["card_number", "expiry_date", "approval_code", "amount", "sender_terminal_id"],
+        "properties": {
+          "card_number": { "type": "string", "example": "4000123456789010" },
+          "expiry_date": { "type": "string", "example": "12/28" },
+          "approval_code": { "type": "string", "example": "AUTH123" },
+          "amount": { "type": "number", "example": 100.00 },
+          "sender_terminal_id": { "type": "string", "example": "TERM_001" }
+        }
+      },
+      "TransactionResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean", "example": true },
+          "message": { "type": "string", "example": "Transaction processed successfully" },
+          "transaction_id": { "type": "string", "example": "TRN-2026091410293" },
+          "timestamp": { "type": "string", "example": "2026-09-14T22:00:00Z" }
+        }
+      },
+      "AuthorizationResponse": {
+        "type": "object",
+        "properties": {
+          "authorized": { "type": "boolean", "example": true },
+          "authorization_code": { "type": "string", "example": "AUTH84920" },
+          "transaction_id": { "type": "string", "example": "PROT1012-20260914" },
+          "amount": { "type": "number", "example": 100.00 },
+          "timestamp": { "type": "string", "example": "2026-09-14T22:00:00Z" }
+        }
+      },
+      "ForexRequest": {
+        "type": "object",
+        "required": ["base_currency", "target_currency", "amount", "terminal_id"],
+        "properties": {
+          "base_currency": { "type": "string", "example": "USD" },
+          "target_currency": { "type": "string", "example": "EUR" },
+          "amount": { "type": "number", "example": 100.00 },
+          "terminal_id": { "type": "string", "example": "TERM001" }
+        }
+      },
+      "ForexResponse": {
+        "type": "object",
+        "properties": {
+          "base_currency": { "type": "string", "example": "USD" },
+          "target_currency": { "type": "string", "example": "EUR" },
+          "exchange_rate": { "type": "number", "example": 0.85 },
+          "converted_amount": { "type": "number", "example": 85.00 },
+          "timestamp": { "type": "string", "example": "2026-09-14T22:00:00Z" }
+        }
+      }
+    }
+  }
+}
